@@ -1,0 +1,416 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+
+<meta charset="UTF-8">
+<meta name="google-site-verification" content="9YhLaF-lR5gE-RLqMA0cx5sLyTmtJp0WuVhiFG_2r40" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>MFA | مای‌فیوریت‌انیمه — دانشنامه فارسی انیمه</title>
+<meta name="description" content="مای‌فیوریت‌انیمه (MFA): آرشیو فارسی معرفی، امتیازدهی و بررسی انیمه‌ها. جدیدترین انیمه‌های در حال پخش، محبوب‌ترین‌ها و آرشیو کامل ژانرها.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="/index.html">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="MFA | مای‌فیوریت‌انیمه">
+<meta property="og:description" content="دانشنامه فارسی انیمه — معرفی، امتیازدهی و بررسی انیمه‌ها.">
+<meta property="og:locale" content="fa_IR">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "MFA - مای‌فیوریت‌انیمه",
+  "url": "/",
+  "inLanguage": "fa"
+}
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@100..900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/theme.css">
+
+<style>
+  .hero{
+    position:relative; overflow:hidden;
+    padding:64px 0 50px;
+    background:
+      radial-gradient(120% 100% at 100% 0, #1a0507 0%, var(--bg) 55%);
+    border-bottom:1px solid var(--line-soft);
+  }
+  .hero-grid{ display:grid; grid-template-columns:1.05fr .95fr; gap:44px; align-items:center; }
+  .hero h1{ font-size:2.9rem; line-height:1.3; margin:0 0 16px; }
+  .hero h1 em{ font-style:normal; color:var(--red-bright); }
+  .hero p{ color:var(--text-soft); font-size:1rem; line-height:2; max-width:560px; margin:0 0 28px; }
+  .cta{ display:flex; gap:12px; flex-wrap:wrap; }
+
+  .feature{
+    background:var(--card); padding:20px; border:1px solid var(--line);
+    border-radius:var(--radius-lg); box-shadow:var(--shadow); position:relative; overflow:hidden;
+  }
+  .feature::after{
+    content:""; position:absolute; top:-60%; left:-30%; width:35%; height:220%;
+    background:linear-gradient(75deg,transparent,rgba(255,255,255,.12),transparent);
+    transform:translateX(-140%) rotate(8deg); pointer-events:none;
+  }
+  .feature:hover::after{ animation:shine 1.1s ease; }
+  .feature-poster{
+    height:300px; border-radius:14px; position:relative; overflow:hidden;
+    background:linear-gradient(155deg,#2a0d10,#160607 55%,#0a0303);
+    background-size:cover; background-position:center;
+  }
+  .feature-tag{
+    position:absolute; right:16px; top:16px; color:#fff;
+    background:rgba(229,9,20,.85); padding:6px 13px; border-radius:999px; font-size:.72rem; font-weight:800;
+  }
+  .feature-meta{ display:flex; justify-content:space-between; gap:20px; align-items:end; margin-top:16px; }
+  .feature-meta h3{ margin:0 0 4px; font-size:1.05rem; }
+  .feature-jp{ font-size:.76rem; color:var(--text-faint); }
+  .feature-score{ color:var(--gold); font-weight:800; white-space:nowrap; }
+
+  @media(max-width:980px){
+    .hero-grid{ grid-template-columns:1fr; }
+    .feature{ order:-1; }
+    .hero h1{ font-size:2.1rem; }
+  }
+</style>
+
+</head>
+<body>
+
+<header class="navbar">
+  <div class="wrap nav-inner">
+
+    <a class="logo" href="index.html">
+      <span class="mark">MFA</span>
+      مای‌فیوریت‌انیمه
+    </a>
+
+    <nav class="nav-links">
+      <a href="index.html" class="active">خانه</a>
+      <a href="index.html#airing">در حال پخش</a>
+      <a href="index.html#top">محبوب‌ترین</a>
+      <a href="search.html">جستجو</a>
+      <a href="index.html#newest">جدیدترین</a>
+      <a href="dashboard.html" id="dashboardLink" style="display:none">پنل من</a>
+    </nav>
+
+    <div class="nav-actions" style="position:relative">
+
+      <a class="icon-btn" href="search.html" title="جستجو" aria-label="جستجو">⌕</a>
+
+      <button class="icon-btn" id="notifBell" type="button" aria-label="اعلان‌ها">
+        🔔
+        <span class="notif-dot" id="notifDot"></span>
+      </button>
+      <div class="notif-panel" id="notifPanel"></div>
+
+      <button class="btn btn-primary" id="authButton" type="button">ورود / ثبت‌نام</button>
+
+    </div>
+
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap hero-grid">
+
+    <div>
+      <div class="eyebrow">دانشنامه‌ی انیمه، به زبان فارسی</div>
+
+      <h1>هر انیمه، با <em>جزئیات</em> کامل و بی‌نقص</h1>
+
+      <p>
+        معرفی، امتیازدهی و بررسی انیمه‌ها؛ از فصل‌های در حال پخش تا کلاسیک‌های ماندگار،
+        همه در یک آرشیو تمیز و قابل جستجو.
+      </p>
+
+      <div class="cta">
+        <a class="btn btn-primary" href="search.html">شروع کاوش</a>
+        <a class="btn btn-outline" href="search.html">فهرست کامل انیمه‌ها</a>
+      </div>
+    </div>
+
+    <a class="feature" id="featureCard" href="anime-detail.html">
+      <div class="feature-poster" id="featurePoster">
+        <span class="feature-tag">انتخاب سردبیر</span>
+      </div>
+
+      <div class="feature-meta">
+        <div>
+          <h3 id="featureTitle">—</h3>
+          <div class="feature-jp" id="featureJp"></div>
+        </div>
+        <div class="feature-score" id="featureScore"></div>
+      </div>
+    </a>
+
+  </div>
+</section>
+
+<div class="wrap" style="margin-top:28px">
+  <div class="ad-slot reveal">
+    <strong>تبلیغات</strong>
+    <span>فضای بنر تبلیغاتی — ۷۲۸ × ۹۰</span>
+    <span></span>
+  </div>
+</div>
+
+<div class="wrap" style="margin-top:20px">
+  <div class="telegram-cta reveal">
+    <p>
+      تمام انیمه‌ها در کانال تلگرامی ما به صورت رایگان اپلود می‌شوند.<br>
+      برای مشاهده جدیدترین انیمه‌ها عضو شوید:
+    </p>
+    <a class="btn btn-primary" href="https://t.me/my_faourite_anime" target="_blank" rel="noopener">
+      عضویت در کانال تلگرام
+    </a>
+  </div>
+</div>
+
+<section id="airing">
+  <div class="wrap">
+    <div class="head reveal">
+      <div>
+        <h2>در حال پخش این فصل</h2>
+        <p>قسمت‌های تازه، هر هفته به‌روزرسانی می‌شود</p>
+      </div>
+      <a class="see" href="search.html?status=در حال پخش">مشاهده همه ›</a>
+    </div>
+    <div class="hscroll" id="airingList"></div>
+  </div>
+</section>
+
+<section class="alt" id="top">
+  <div class="wrap">
+    <div class="head reveal">
+      <div>
+        <h2>محبوب‌ترین انیمه‌ها</h2>
+        <p>رتبه‌بندی بر اساس امتیاز IMDb</p>
+      </div>
+      <a class="see" href="search.html?sort=score">مشاهده همه ›</a>
+    </div>
+    <div class="anime-grid" id="rankList"></div>
+  </div>
+</section>
+
+<section id="newest">
+  <div class="wrap">
+    <div class="head reveal">
+      <div>
+        <h2>جدیدترین‌ها</h2>
+        <p>تازه‌ترین افزوده‌شده‌ها به آرشیو</p>
+      </div>
+      <a class="see" href="search.html?sort=newest">مشاهده همه ›</a>
+    </div>
+    <div class="anime-grid" id="newestList"></div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="head reveal">
+      <div>
+        <h2>مرور بر اساس ژانر</h2>
+        <p>انیمه مورد علاقه‌ات را سریع‌تر پیدا کن</p>
+      </div>
+    </div>
+
+    <div class="genres reveal">
+      <a class="genre" href="search.html?genre=اکشن">اکشن</a>
+      <a class="genre" href="search.html?genre=فانتزی">فانتزی</a>
+      <a class="genre" href="search.html?genre=درام">درام</a>
+      <a class="genre" href="search.html?genre=رمانتیک">رمانتیک</a>
+      <a class="genre" href="search.html?genre=ورزشی">ورزشی</a>
+      <a class="genre" href="search.html?genre=علمی‌تخیلی">علمی‌تخیلی</a>
+      <a class="genre" href="search.html?genre=کمدی">کمدی</a>
+      <a class="genre" href="search.html?genre=ماجراجویی">ماجراجویی</a>
+      <a class="genre" href="search.html?genre=وحشت">وحشت</a>
+      <a class="genre" href="search.html?genre=رازآلود">رازآلود</a>
+      <a class="genre" href="search.html?genre=رزمی">رزمی</a>
+      <a class="genre" href="search.html?genre=فوق‌طبیعی">فوق‌طبیعی</a>
+      <a class="genre" href="search.html?genre=مکانیکی">مکانیکی</a>
+      <a class="genre" href="search.html?genre=تاریخی">تاریخی</a>
+      <a class="genre" href="search.html?genre=موسیقی">موسیقی</a>
+      <a class="genre" href="search.html?genre=مدرسه‌ای">مدرسه‌ای</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="footgrid reveal">
+
+      <div>
+        <h4>درباره MFA</h4>
+        <p>مای‌فیوریت‌انیمه یک دانشنامه‌ی فارسی‌زبان برای معرفی، بررسی و امتیازدهی انیمه‌هاست.</p>
+      </div>
+
+      <div>
+        <h4>لینک‌های مفید</h4>
+        <ul>
+          <li><a href="index.html">خانه</a></li>
+          <li><a href="search.html">جستجو</a></li>
+          <li><a href="dashboard.html">پنل من</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4>دسته‌بندی‌ها</h4>
+        <ul>
+          <li><a href="index.html#airing">در حال پخش</a></li>
+          <li><a href="index.html#top">محبوب‌ترین</a></li>
+          <li><a href="index.html#newest">جدیدترین‌ها</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4>جامعه</h4>
+        <ul>
+          <li><a href="https://t.me/my_faourite_anime" target="_blank" rel="noopener">کانال تلگرام</a></li>
+          <li><a href="#">قوانین سایت</a></li>
+          <li><a href="#">حریم خصوصی</a></li>
+          <li><a href="#">تماس با ما</a></li>
+        </ul>
+      </div>
+
+    </div>
+
+    <div class="footer-bottom">
+      <span>© ۱۴۰۵ MFA — تمامی حقوق محفوظ است</span>
+      <span>ساخته‌شده با ❤ برای عاشقان انیمه</span>
+    </div>
+  </div>
+</footer>
+
+<div class="modal-overlay" id="authModal">
+  <div class="modal-box">
+    <span class="modal-close" id="authModalClose">✕</span>
+
+    <div class="modal-tabs">
+      <div class="modal-tab active" data-tab="login">ورود</div>
+      <div class="modal-tab" data-tab="register">ثبت‌نام</div>
+    </div>
+
+    <div class="modal-message" id="authModalMessage"></div>
+
+    <form id="loginForm">
+      <div class="modal-field">
+        <label>نام کاربری</label>
+        <input id="loginUsername" required>
+      </div>
+      <div class="modal-field">
+        <label>رمز عبور</label>
+        <input id="loginPassword" type="password" required>
+      </div>
+      <button class="modal-submit" type="submit">ورود</button>
+    </form>
+
+    <form id="registerForm" style="display:none">
+      <div class="modal-field">
+        <label>نام کاربری</label>
+        <input id="registerUsername" required>
+      </div>
+      <div class="modal-field">
+        <label>رمز عبور (حداقل ۶ کاراکتر)</label>
+        <input id="registerPassword" type="password" required minlength="6">
+      </div>
+      <button class="modal-submit" type="submit">ثبت‌نام</button>
+    </form>
+  </div>
+</div>
+
+<script src="/assets/js/shared.js"></script>
+<script>
+
+const pal = ['p1','p2','p3','p4','p5','p6'];
+
+function renderFeature(anime){
+  if(!anime) return;
+  document.getElementById('featureTitle').textContent = anime.title;
+  document.getElementById('featureJp').textContent = anime.jp_title || '';
+  document.getElementById('featureScore').textContent =
+    `IMDb ⭐ ${MFA.faNumber(MFA.safeScore(anime.score).toFixed(1))}`;
+  document.getElementById('featureCard').href = `anime-detail.html?id=${anime.id}`;
+
+  const poster = document.getElementById('featurePoster');
+  if(anime.poster){
+    poster.style.backgroundImage = `url("${anime.poster}")`;
+  }
+}
+
+function animeCardHtml(anime, options = {}){
+  const { rank = null } = options;
+  const score = MFA.safeScore(anime.score);
+  const isAiring = anime.status === 'در حال پخش';
+
+  return `
+    <article class="anime-card pop-in">
+      <a class="poster-link" href="anime-detail.html?id=${anime.id}" aria-label="مشاهده ${MFA.escapeHtml(anime.title)}">
+        <div class="poster" style="${MFA.posterStyle(anime.poster)}">
+          ${rank ? `<div class="rank-num">${rank}</div>` : ''}
+          <span class="status-badge ${isAiring ? 'airing' : ''}">${MFA.escapeHtml(anime.status || 'نامشخص')}</span>
+          <span class="score-badge">⭐ ${MFA.faNumber(score.toFixed(1))}</span>
+        </div>
+      </a>
+      <div class="card-body">
+        <h3 class="anime-title">${MFA.escapeHtml(anime.title)}</h3>
+        ${anime.jp_title ? `<div class="anime-jp">${MFA.escapeHtml(anime.jp_title)}</div>` : ''}
+        <div class="card-meta">
+          <span class="meta-chip">📅 <span>${MFA.faNumber(anime.year || '—')}</span></span>
+          <span class="meta-chip">🌍 <span>${MFA.escapeHtml(anime.country || '—')}</span></span>
+        </div>
+      </div>
+    </article>
+  `;
+}
+
+function renderHscroll(list, containerId){
+  const el = document.getElementById(containerId);
+  if(!list.length){
+    el.innerHTML = '<div class="empty-note">فعلاً انیمه‌ای برای نمایش نیست.</div>';
+    return;
+  }
+  el.innerHTML = list.map(anime => animeCardHtml(anime)).join('');
+}
+
+function renderGrid(list, containerId, { showRank = false } = {}){
+  const el = document.getElementById(containerId);
+  if(!list.length){
+    el.innerHTML = '<div class="empty-note">فعلاً انیمه‌ای برای نمایش نیست.</div>';
+    return;
+  }
+  el.innerHTML = list.map((anime, i) => animeCardHtml(anime, { rank: showRank ? i + 1 : null })).join('');
+}
+
+async function loadHome(){
+  try{
+    const data = await MFA.api('/anime?sort=newest');
+    const all = data.data || [];
+
+    if(all.length) renderFeature(all[0]);
+
+    const airing = all.filter(x => x.status === 'در حال پخش').slice(0, 8);
+    renderHscroll(airing, 'airingList');
+
+    const ranked = [...all].sort((a,b) => MFA.safeScore(b.score) - MFA.safeScore(a.score)).slice(0, 10);
+    renderGrid(ranked, 'rankList', { showRank: true });
+
+    renderGrid(all.slice(0, 10), 'newestList');
+
+  }catch(error){
+    console.error(error);
+    ['airingList','rankList','newestList'].forEach(id=>{
+      document.getElementById(id).innerHTML =
+        '<div class="empty-note">در دریافت اطلاعات از سرور خطایی رخ داد.</div>';
+    });
+  }
+}
+
+loadHome();
+
+</script>
+
+</body>
+</html>
