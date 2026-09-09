@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>جستجوی انیمه | MFA</title>
+  <meta name="description" content="در آرشیو MFA بین انیمه‌ها جستجو کن و بر اساس ژانر، وضعیت، کشور سازنده، رده سنی و امتیاز نتیجه دلخواهت را پیدا کن.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="/search.html">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@100..900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/theme.css">
+
+  <style>
+    .page-hero{
+      padding:50px 0 34px;
+      background:radial-gradient(70% 120% at 100% 0%, #1a0507 0%, var(--bg) 68%);
+      border-bottom:1px solid var(--line-soft);
+    }
+    .hero-content{ max-width:850px; }
+    .page-title{ margin:0; font-size:2.1rem; line-height:1.4; letter-spacing:-.5px; }
+    .page-description{ color:var(--text-soft); line-height:2; font-size:.88rem; margin:10px 0 0; max-width:760px; }
+
+    .search-section{ padding:24px 0 5px; }
+    .search-panel{
+      background:var(--card); border:1px solid var(--line);
+      border-radius:var(--radius-lg); padding:18px; box-shadow:var(--shadow);
+    }
+    .search-main{ display:grid; grid-template-columns:1fr auto; gap:10px; }
+    .search-input-wrap{ position:relative; }
+    .search-input{
+      width:100%; height:50px; border:1px solid var(--line); border-radius:12px;
+      background:var(--bg); color:#fff; outline:none; padding:0 46px 0 16px; font-size:.86rem;
+    }
+    .search-input:focus{ border-color:var(--red); box-shadow:0 0 0 3px rgba(229,9,20,.15); }
+    .search-icon{ position:absolute; right:16px; top:50%; transform:translateY(-50%); color:var(--red-bright); font-size:1.15rem; pointer-events:none; }
+    .search-button{
+      height:50px; padding:0 26px; border:0; border-radius:12px; background:var(--red);
+      color:#fff; font-weight:800;
+    }
+    .search-button:hover{ background:var(--red-bright); }
+
+    .filters{ display:grid; grid-template-columns:repeat(5,1fr); gap:10px; margin-top:12px; }
+    .field label{ display:block; color:var(--text-faint); font-size:.66rem; font-weight:700; margin:0 0 6px 3px; }
+    .select{
+      width:100%; height:42px; border:1px solid var(--line); border-radius:10px;
+      background:var(--bg); color:#fff; padding:0 10px; outline:none; font-size:.76rem;
+    }
+    .select:focus{ border-color:var(--red); }
+
+    .filter-bottom{ display:flex; align-items:center; justify-content:space-between; gap:12px; margin-top:13px; }
+    .result-info{ color:var(--text-soft); font-size:.76rem; }
+    .result-info strong{ color:#fff; }
+    .clear-btn{ border:0; background:transparent; color:var(--red-bright); font-size:.75rem; font-weight:750; padding:5px; }
+    .clear-btn:hover{ text-decoration:underline; }
+
+    .section{ padding:30px 0 55px; }
+
+    @media(max-width:1100px){ .filters{ grid-template-columns:repeat(3,1fr); } }
+    @media(max-width:620px){
+      .page-hero{ padding:36px 0 26px; }
+      .page-title{ font-size:1.55rem; }
+      .search-main{ grid-template-columns:1fr; }
+      .search-button{ width:100%; }
+      .filters{ grid-template-columns:1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<header class="navbar">
+  <div class="wrap nav-inner">
+    <a class="logo" href="index.html">
+      <span class="mark">MFA</span>
+      مای‌فیوریت‌انیمه
+    </a>
+
+    <nav class="nav-links">
+      <a href="index.html">خانه</a>
+      <a href="index.html#airing">در حال پخش</a>
+      <a class="active" href="search.html">جستجو</a>
+      <a href="index.html#top">محبوب‌ترین</a>
+      <a href="index.html#newest">جدیدترین</a>
+      <a href="dashboard.html" id="dashboardLink" style="display:none">پنل من</a>
+    </nav>
+
+    <div class="nav-actions" style="position:relative">
+      <a class="icon-btn" href="search.html" title="جستجو" aria-label="جستجو">⌕</a>
+
+      <button class="icon-btn" id="notifBell" type="button" aria-label="اعلان‌ها">
+        🔔
+        <span class="notif-dot" id="notifDot"></span>
+      </button>
+      <div class="notif-panel" id="notifPanel"></div>
+
+      <button class="btn btn-primary" id="authButton" type="button">ورود / ثبت‌نام</button>
+    </div>
+  </div>
+</header>
+
+<section class="page-hero">
+  <div class="wrap">
+    <div class="hero-content">
+      <div class="eyebrow">آرشیو MFA</div>
+      <h1 class="page-title">جستجو و پیدا کردن انیمه مورد علاقه‌ات</h1>
+      <p class="page-description">
+        بین انیمه‌های موجود جستجو کن و بر اساس ژانر، وضعیت، کشور سازنده، رده سنی و امتیاز، نتیجه مورد نظرت را سریع پیدا کن.
+      </p>
+    </div>
+  </div>
+</section>
+
+<section class="search-section">
+  <div class="wrap">
+    <div class="search-panel">
+
+      <div class="search-main">
+        <div class="search-input-wrap">
+          <span class="search-icon">⌕</span>
+          <input id="searchInput" class="search-input" type="search" autocomplete="off"
+                 placeholder="نام انیمه، عنوان ژاپنی، استودیو یا ژانر...">
+        </div>
+        <button id="searchButton" class="search-button" type="button">جستجو</button>
+      </div>
+
+      <div class="filters">
+        <div class="field">
+          <label for="genreFilter">ژانر</label>
+          <select id="genreFilter" class="select"><option value="">همه ژانرها</option></select>
+        </div>
+
+        <div class="field">
+          <label for="statusFilter">وضعیت</label>
+          <select id="statusFilter" class="select">
+            <option value="">همه وضعیت‌ها</option>
+            <option value="در حال پخش">در حال پخش</option>
+            <option value="پایان یافته">پایان یافته</option>
+            <option value="به‌زودی">به‌زودی</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="countryFilter">کشور سازنده</label>
+          <select id="countryFilter" class="select"><option value="">همه کشورها</option></select>
+        </div>
+
+        <div class="field">
+          <label for="ageFilter">رده سنی</label>
+          <select id="ageFilter" class="select">
+            <option value="">همه رده‌ها</option>
+            <option value="G">G</option>
+            <option value="PG">PG</option>
+            <option value="PG-13">PG-13</option>
+            <option value="R">R</option>
+            <option value="+18">+18</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="scoreFilter">حداقل امتیاز</label>
+          <select id="scoreFilter" class="select">
+            <option value="">همه امتیازها</option>
+            <option value="9">۹ به بالا</option>
+            <option value="8">۸ به بالا</option>
+            <option value="7">۷ به بالا</option>
+            <option value="6">۶ به بالا</option>
+            <option value="5">۵ به بالا</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="filter-bottom">
+        <div class="result-info" id="resultInfo">در حال آماده‌سازی...</div>
+        <button class="clear-btn" id="clearButton" type="button">پاک کردن فیلترها</button>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="head">
+      <div>
+        <h2 style="margin:0;font-size:1.2rem">نتایج جستجو</h2>
+        <div style="color:var(--text-faint);font-size:.73rem;margin-top:4px">انیمه‌های موجود در آرشیو</div>
+      </div>
+    </div>
+
+    <div class="anime-grid" id="animeGrid">
+      <div class="state">
+        <div>
+          <div class="loader"></div>
+          <h3 class="state-title">در حال دریافت انیمه‌ها...</h3>
+          <p class="state-text">لطفاً چند لحظه صبر کنید.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="footgrid">
+      <div>
+        <h4>MFA — مای‌فیوریت‌انیمه</h4>
+        <p>آرشیو و معرفی انیمه‌های مورد علاقه شما</p>
+      </div>
+      <div></div>
+      <div></div>
+      <div>
+        <h4>لینک‌ها</h4>
+        <ul>
+          <li><a href="index.html">خانه</a></li>
+          <li><a href="search.html">جستجو</a></li>
+          <li><a href="index.html#top">محبوب‌ترین‌ها</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© ۱۴۰۵ MFA — تمامی حقوق محفوظ است</span>
+      <span>ساخته‌شده با ❤ برای عاشقان انیمه</span>
+    </div>
+  </div>
+</footer>
+
+<div class="modal-overlay" id="authModal">
+  <div class="modal-box">
+    <span class="modal-close" id="authModalClose">✕</span>
+    <div class="modal-tabs">
+      <div class="modal-tab active" data-tab="login">ورود</div>
+      <div class="modal-tab" data-tab="register">ثبت‌نام</div>
+    </div>
+    <div class="modal-message" id="authModalMessage"></div>
+
+    <form id="loginForm">
+      <div class="modal-field"><label>نام کاربری</label><input id="loginUsername" required></div>
+      <div class="modal-field"><label>رمز عبور</label><input id="loginPassword" type="password" required></div>
+      <button class="modal-submit" type="submit">ورود</button>
+    </form>
+
+    <form id="registerForm" style="display:none">
+      <div class="modal-field"><label>نام کاربری</label><input id="registerUsername" required></div>
+      <div class="modal-field"><label>رمز عبور (حداقل ۶ کاراکتر)</label><input id="registerPassword" type="password" required minlength="6"></div>
+      <button class="modal-submit" type="submit">ثبت‌نام</button>
+    </form>
+  </div>
+</div>
+
+<script src="/assets/js/shared.js"></script>
+<script>
+
+let allAnime = [];
+let favoriteIds = new Set();
+let searchTimer = null;
+
+const searchInput = document.getElementById('searchInput');
+const searchButton = document.getElementById('searchButton');
+const genreFilter = document.getElementById('genreFilter');
+const statusFilter = document.getElementById('statusFilter');
+const countryFilter = document.getElementById('countryFilter');
+const ageFilter = document.getElementById('ageFilter');
+const scoreFilter = document.getElementById('scoreFilter');
+const clearButton = document.getElementById('clearButton');
+const animeGrid = document.getElementById('animeGrid');
+const resultInfo = document.getElementById('resultInfo');
+
+function showLoading(){
+  animeGrid.innerHTML = `
+    <div class="state"><div>
+      <div class="loader"></div>
+      <h3 class="state-title">در حال دریافت انیمه‌ها...</h3>
+      <p class="state-text">اطلاعات از سرور دریافت می‌شود.</p>
+    </div></div>`;
+  resultInfo.textContent = 'در حال دریافت اطلاعات...';
+}
+
+function showError(message){
+  animeGrid.innerHTML = `
+    <div class="state"><div>
+      <div class="state-icon">⚠️</div>
+      <h3 class="state-title">دریافت اطلاعات ناموفق بود</h3>
+      <p class="state-text">${MFA.escapeHtml(message)}</p>
+      <button class="btn btn-primary" type="button" onclick="loadAnime()" style="margin-top:15px">تلاش دوباره</button>
+    </div></div>`;
+  resultInfo.textContent = 'خطا در دریافت اطلاعات';
+}
+
+function showEmpty(){
+  animeGrid.innerHTML = `
+    <div class="state"><div>
+      <div class="state-icon">🔎</div>
+      <h3 class="state-title">نتیجه‌ای پیدا نشد</h3>
+      <p class="state-text">با فیلترها یا عبارت جستجوی فعلی هیچ انیمه‌ای پیدا نشد. فیلترها را تغییر دهید و دوباره امتحان کنید.</p>
+    </div></div>`;
+}
+
+async function loadFavoriteIds(){
+  if(!MFA.isLoggedIn()) { favoriteIds = new Set(); return; }
+  try{
+    const data = await MFA.api('/lists-status');
+    favoriteIds = new Set(data.favorites || []);
+  }catch{
+    favoriteIds = new Set();
+  }
+}
+
+async function loadAnime(){
+  showLoading();
+  try{
+    const [data] = await Promise.all([
+      MFA.api('/anime'),
+      loadFavoriteIds()
+    ]);
+
+    if(!Array.isArray(data.data)){
+      throw new Error('ساختار اطلاعات دریافتی از سرور صحیح نیست.');
+    }
+
+    allAnime = data.data;
+    buildFilters();
+    applyFilters();
+  }catch(error){
+    console.error('MFA loadAnime error:', error);
+    showError(error.message || 'ارتباط با سرور برقرار نشد.');
+  }
+}
+
+function extractValues(getField){
+  const set = new Set();
+  allAnime.forEach(anime=>{
+    const v = getField(anime);
+    if(Array.isArray(v)){
+      v.forEach(x=> x && set.add(x));
+    }else if(v){
+      set.add(String(v).trim());
+    }
+  });
+  return [...set].sort((a,b)=> a.localeCompare(b,'fa'));
+}
+
+function fillSelect(select, values, firstLabel){
+  const current = select.value;
+  select.innerHTML = '';
+  const first = document.createElement('option');
+  first.value = ''; first.textContent = firstLabel;
+  select.appendChild(first);
+  values.forEach(v=>{
+    const o = document.createElement('option');
+    o.value = v; o.textContent = v;
+    select.appendChild(o);
+  });
+  if(values.includes(current)) select.value = current;
+}
+
+function buildFilters(){
+  fillSelect(genreFilter, extractValues(a =>
+    String(a.genres||'').split(/[،,·|/]/).map(s=>s.trim()).filter(Boolean)
+  ), 'همه ژانرها');
+
+  fillSelect(countryFilter, extractValues(a => a.country), 'همه کشورها');
+}
+
+function normalize(v){ return String(v ?? '').trim().toLowerCase(); }
+
+function matches(anime, query, genre, status, country, age, minScore){
+  if(query){
+    const searchable = [anime.title, anime.jp_title, anime.studio, anime.genres, anime.country, anime.synopsis]
+      .map(normalize).join(' ');
+    if(!searchable.includes(normalize(query))) return false;
+  }
+  if(genre && !String(anime.genres||'').split(/[،,·|/]/).map(normalize).includes(normalize(genre))) return false;
+  if(status && normalize(anime.status) !== normalize(status)) return false;
+  if(country && normalize(anime.country) !== normalize(country)) return false;
+  if(age && anime.age_rating !== age) return false;
+  if(minScore && MFA.safeScore(anime.score) < Number(minScore)) return false;
+  return true;
+}
+
+function applyFilters(){
+  const query = searchInput.value.trim();
+  const filtered = allAnime.filter(a => matches(
+    a, query, genreFilter.value, statusFilter.value, countryFilter.value, ageFilter.value, scoreFilter.value
+  ));
+  renderAnime(filtered);
+}
+
+async function toggleFavorite(id, btn){
+  if(!MFA.isLoggedIn()){
+    window.MFA_openAuthModal?.();
+    return;
+  }
+  const active = favoriteIds.has(id);
+  try{
+    if(active){
+      await MFA.api(`/lists/favorite/${id}`, { method:'DELETE' });
+      favoriteIds.delete(id);
+    }else{
+      await MFA.api(`/lists/favorite/${id}`, { method:'POST', body: '{}' });
+      favoriteIds.add(id);
+    }
+    btn.classList.toggle('active', !active);
+  }catch(error){
+    MFA.toast(error.message || 'خطا در به‌روزرسانی علاقه‌مندی‌ها', 'error');
+  }
+}
+
+function renderAnime(animes){
+  resultInfo.innerHTML = `<strong>${MFA.faNumber(animes.length)}</strong> انیمه پیدا شد`;
+
+  if(!animes.length){ showEmpty(); return; }
+
+  animeGrid.innerHTML = '';
+
+  animes.forEach(anime=>{
+    const id = Number(anime.id);
+    const score = MFA.safeScore(anime.score);
+    const isFav = favoriteIds.has(id);
+    const isAiring = anime.status === 'در حال پخش';
+
+    const card = document.createElement('article');
+    card.className = 'anime-card pop-in';
+    card.innerHTML = `
+      <a class="poster-link" href="anime-detail.html?id=${id}" aria-label="مشاهده ${MFA.escapeHtml(anime.title)}">
+        <div class="poster" style="${MFA.posterStyle(anime.poster)}">
+          <span class="status-badge ${isAiring ? 'airing' : ''}">${MFA.escapeHtml(anime.status || 'نامشخص')}</span>
+          <span class="score-badge">⭐ ${MFA.faNumber(score.toFixed(1))}</span>
+        </div>
+      </a>
+      <button class="fav-btn ${isFav ? 'active' : ''}" type="button" title="افزودن به علاقه‌مندی‌ها" aria-label="افزودن به علاقه‌مندی‌ها">♥</button>
+
+      <div class="card-body">
+        <h3 class="anime-title">${MFA.escapeHtml(anime.title || 'بدون عنوان')}</h3>
+        ${anime.jp_title ? `<div class="anime-jp">${MFA.escapeHtml(anime.jp_title)}</div>` : ''}
+
+        <div class="card-meta">
+          <span class="meta-chip" title="سال انتشار">📅 <span>${MFA.faNumber(anime.year || '—')}</span></span>
+          <span class="meta-chip" title="کشور سازنده">🌍 <span>${MFA.escapeHtml(anime.country || '—')}</span></span>
+        </div>
+
+        <div class="card-meta" title="استودیو">
+          🎬 <span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${MFA.escapeHtml(anime.studio || '—')}</span>
+        </div>
+
+        <a class="card-action" href="anime-detail.html?id=${id}">مشاهده جزئیات</a>
+      </div>
+    `;
+
+    card.querySelector('.fav-btn').style.position = 'absolute';
+    const posterWrap = card.querySelector('.poster-link');
+    posterWrap.style.position = 'relative';
+    posterWrap.appendChild(card.querySelector('.fav-btn'));
+
+    card.querySelector('.fav-btn').addEventListener('click', (e)=>{
+      e.preventDefault();
+      toggleFavorite(id, e.currentTarget);
+    });
+
+    animeGrid.appendChild(card);
+  });
+}
+
+function runSearch(){
+  applyFilters();
+  const url = new URL(window.location.href);
+  const query = searchInput.value.trim();
+  query ? url.searchParams.set('q', query) : url.searchParams.delete('q');
+  history.replaceState({}, '', url);
+}
+
+searchButton.addEventListener('click', runSearch);
+searchInput.addEventListener('keydown', e=>{ if(e.key === 'Enter') runSearch(); });
+searchInput.addEventListener('input', ()=>{
+  clearTimeout(searchTimer);
+  searchTimer = setTimeout(applyFilters, 180);
+});
+
+[genreFilter, statusFilter, countryFilter, ageFilter, scoreFilter].forEach(el=>{
+  el.addEventListener('change', applyFilters);
+});
+
+clearButton.addEventListener('click', ()=>{
+  searchInput.value = '';
+  [genreFilter, statusFilter, countryFilter, ageFilter, scoreFilter].forEach(el => el.value = '');
+  const url = new URL(window.location.href);
+  url.searchParams.delete('q');
+  history.replaceState({}, '', url);
+  applyFilters();
+});
+
+function loadQueryFromUrl(){
+  const params = new URLSearchParams(window.location.search);
+  const query = params.get('q');
+  if(query) searchInput.value = query;
+
+  const status = params.get('status');
+  if(status) statusFilter.value = status;
+
+  const genre = params.get('genre');
+  if(genre) genreFilter.value = genre;
+}
+
+document.addEventListener('mfa:login', loadFavoriteIds);
+document.addEventListener('mfa:logout', ()=>{ favoriteIds = new Set(); applyFilters(); });
+
+loadQueryFromUrl();
+loadAnime();
+
+</script>
+
+</body>
+</html>
